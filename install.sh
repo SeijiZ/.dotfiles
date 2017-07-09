@@ -2,10 +2,16 @@
 
 for f in .??*
 do
-    [[ "$f" == ".git"]] && continue
-    [[ "$f" == ".DS_STORE"]] && continue
-    echo $HOME/.dotfiles/$f $HOME/$f
-    ln -s $HOME/.dotfiles/$f $HOME/$f
+   if [ "$f" = ".git" ];then
+       echo ".git ignored"
+       continue
+   fi
 
-    #ln -s  $f $HOME/$f
+   if [ "$f" = ".DS_STORE" ];then
+       echo ".DS_STORE ignored"
+       continue
+   fi
+   ln -s $HOME/.dotfiles/$f $HOME/$f
+
 done
+
