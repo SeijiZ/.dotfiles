@@ -1,6 +1,8 @@
 export LANG=ja_JP.UTF-8
 export PATH=~/anaconda3/bin:$PATH
 export TERM=xterm-256color
+export SPARK_HOME=/opt/spark
+export PATH=${SPARK_HOME}/bin:$PATH
 
 # 色を使用出来るようにする
 autoload -Uz colors
