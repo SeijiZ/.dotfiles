@@ -3,21 +3,20 @@ export PATH=~/anaconda3/bin:$PATH
 export TERM=xterm-256color
 export SPARK_HOME=/opt/spark
 export PATH=${SPARK_HOME}/bin:$PATH
+export PYTHONIOENCODING=utf-8
 
-# 色を使用出来るようにする
+# enable color
 autoload -Uz colors
 colors
 
-# # emacs 風キーバインドにする
-bindkey -v
+# bind like emacs
+bindkey -e
 
-# ヒストリの設定
+# history config
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# プロンプト
-# 1行表示
 # PROMPT="%~ %# "
 # 2行表示
 PROMPT="%{${fg[blue]}%}[%n@%m]%{${reset_color}%} %~
