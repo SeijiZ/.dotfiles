@@ -16,3 +16,5 @@ repo = 'mattn/emmet-vim'
 [[plugins]]
 repo = 'tpope/vim-surround'
 
+[[plugins]]
+repo = 'vim-syntastic/syntastic'

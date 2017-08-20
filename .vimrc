@@ -38,7 +38,6 @@ endif
 nnoremap <C-l> :Unite<CR>
 " begin with insert mode
 let g:unite_enable_start_insert=1
-
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 
@@ -46,8 +45,32 @@ au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 " lightline vim settings ------------------
+
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \ 'left': [ [ 'mode', 'paste' ],['readonly', 'filepath', 'modified'] ]
+            \ },
+            \ 'component_function': {
+            \ 'filepath': 'FilePath'
+            \ },
+            \ } 
+if !has('gui_running')
+    set t_Co=256
+endif
+
+function! FilePath()
+    if winwidth(0) > 90
+        return expand("%:p")
+    else
+       return expand("%:t")
+    endif
+endfunction
+
+set noshowmode
+
+" vim settings ----------------------------
 set laststatus=2
-set showmode
 set showcmd
 set number
 set relativenumber
@@ -89,3 +112,5 @@ set autoread
 set undodir=$HOME/.vim/undo
 set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
+set timeout timeoutlen=1000 ttimeoutlen=75
+set mouse=a

@@ -1,101 +1,116 @@
-export LANG=ja_JP.UTF-8
-export PATH=~/anaconda3/bin:$PATH
+# define environmental variable
 export TERM=xterm-256color
 export SPARK_HOME=/opt/spark
 export PATH=${SPARK_HOME}/bin:$PATH
 export PYTHONIOENCODING=utf-8
 
 # enable color
-autoload -Uz colors
-colors
+autoload -Uz colors && colors
 
 # bind like emacs
 bindkey -e
 
 # history config
-HISTFILE=~/.zsh_history
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# PROMPT="%~ %# "
-# 2行表示
-PROMPT="%{${fg[blue]}%}[%n@%m]%{${reset_color}%} %~
-%# "
+# PROMPT 2 Line display
+setopt prompt_subst
+PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
+ >> "
 
+autoload -U promptinit && promptinit
 
-# 単語の区切り文字を指定する
+# define delimiter
 autoload -Uz select-word-style
 select-word-style default
-# ここで指定した文字は単語区切りとみなされる
-# / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
+# specify chars as delimiter
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
 ########################################
-# 補完
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
+# completion settings
+# enable completion
+autoload -Uz compinit && compinit
 
-# 補完で小文字でも大文字にマッチさせる
+# ignore case in completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# ../ の後は今いるディレクトリを補完しない
+# not complete after ../
 zstyle ':completion:*' ignore-parents parent pwd ..
 
-# sudo の後ろでコマンド名を補完する
+# complete after sudo
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                        /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
-# ps コマンドのプロセス名補完
+# complete after ps command
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+
+zstyle ':completion:*' menu select interactive
 ########################################
 
 # vcs_info
+# %a action
+# %b branch
+# %v the value of the first element of the psvar array parameter
+# %F{color}...%f color between %F and %f
+autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
+autoload -Uz is-at-least
+#zstyle ':vcs_info:git:*' check-for-changes true
+#zstyle ':vcs_info:git:*' stagedstr "{yellow}"
+#zstyle ':vcs_info:git:*' unstagedstr "{red}"
+zstyle ':vcs_info:*' max-exports 3
 zstyle ':vcs_info*' formats '(%s)-[%b]'
-zstyle ':vcs_info*' actionformats '(%s)-[%b|%a]'
-precmd(){
-        psvar=()
-            LANG=en_US.UTF-8 vcs_info
-                [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+zstyle ':vcs_info*' actionformats '(%s)-[%b]' '%m' '<!%a>'
+
+function _update_vcs_info_msg(){
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]+="$vcs_info_msg_0_"
+    [[ -n "$vcs_info_msg_1_" ]] && psvar[1]+="$vcs_info_msg_1_"
+    [[ -n "$vcs_info_msg_2_" ]] && psvar[1]+="$vcs_info_msg_2_"
 }
-RPROMPT="%1(v|%F{green}%1v%f|)"
+
+add-zsh-hook precmd _update_vcs_info_msg
+RPROMPT="%1(v|%F{cyan}%1v%f|)"
 
 
 ########################################
-# オプション
-# 日本語ファイル名を表示可能にする
+# option
+# display japanese name
 setopt print_eight_bit
 
-# beep を無効にする
+# disable beep
 setopt no_beep
 
-# フローコントロールを無効にする
+# disable flow control
 setopt no_flow_control
 
-# '#' 以降をコメントとして扱う
+# comment out after '#'
 setopt interactive_comments
 
-# ディレクトリ名だけでcdする
+# enable cd only directory name
 setopt auto_cd
 
-# cd したら自動的にpushdする
+# pushd after cd
 setopt auto_pushd
-# 重複したディレクトリを追加しない
+
+# ignore pushd if dupulicated
 setopt pushd_ignore_dups
 
-# = の後はパス名として補完する
+# complete after =
 setopt magic_equal_subst
 
-# 同時に起動したzshの間でヒストリを共有する
+# share history
 setopt share_history
 
-# 同じコマンドをヒストリに残さない
+# ignore same command
 setopt hist_ignore_all_dups
 
-# ヒストリファイルに保存するとき、すでに重複したコマンドがあったら古い方を削除する
-setopt hist_save_nodups
+# delete older duplicated command history
+setopt hist_save_no_dups
 
 # スペースから始まるコマンド行はヒストリに残さない
 setopt hist_ignore_space
@@ -110,13 +125,12 @@ setopt auto_menu
 #setopt extended_glob
 
 ########################################
-# キーバインド
-
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
+# key bind
+# enable wildcard with * when ^R
 bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
-# エイリアス
+# alias
 
 alias la='ls -a'
 alias ll='ls -l'
@@ -127,40 +141,40 @@ alias mv='mv -i'
 
 alias mkdir='mkdir -p'
 
-# sudo の後のコマンドでエイリアスを有効にする
+# enable alias after sudo
 alias sudo='sudo '
 
-# グローバルエイリアス
+# global alias
 alias -g L='| less'
 alias -g G='| grep'
 
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
 if which pbcopy >/dev/null 2>&1 ; then
-        # Mac
-            alias -g C='| pbcopy'
-            elif which xsel >/dev/null 2>&1 ; then
-                # Linux
-                    alias -g C='| xsel --input --clipboard'
-                    elif which putclip >/dev/null 2>&1 ; then
-                        # Cygwin
-                            alias -g C='| putclip'
-                            fi
+    # Mac
+    alias -g C='| pbcopy'
+elif which xsel >/dev/null 2>&1 ; then
+    # Linux
+    alias -g C='| xsel --input --clipboard'
+elif which putclip >/dev/null 2>&1 ; then
+    # Cygwin
+    alias -g C='| putclip'
+fi
 
 
 
 ########################################
-# OS 別の設定
+# setting each os 
 case ${OSTYPE} in
     darwin*)
-            #Mac用の設定
-                    export CLICOLOR=1
-                            alias ls='ls -G -F'
-                                    ;;
-                                        linux*)
-                                                #Linux用の設定
-                                                        ;;
-                                                        esac
+        #Mac用の設定
+        export CLICOLOR=1
+        alias ls='ls -G -F'
+        ;;
+    linux*)
+        #Linux用の設定
+        ;;
+esac
 
 # vim:set ft=zsh:
 
