@@ -69,6 +69,37 @@ endfunction
 
 set noshowmode
 
+" neocomplete.vim -------------------------
+let g:neocomplete#enable_at_startup=1
+
+" neosnippets.vim -------------------------
+" Plugin key-mappings.
+imap <C-k>    <Plug>(neosnippet_expand_or_jump)
+smap <C-k>    <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>    <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippets#expandable_or_jumpable() ?
+            \"\<Plug>(neosnippet_expand_or_jump)" 
+            \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippets#expandable_or_jumpable() ?
+            \"\<Plug>(neosnippet_expand_or_jump)" 
+            \: "\<TAB>"
+
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
+
+" syntastic ------------------------------
+set statusline+=%#warningmsg#
+set statusline+=%{syntasticstatuslineflag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " vim settings ----------------------------
 set laststatus=2
 set showcmd

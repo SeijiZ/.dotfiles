@@ -2,7 +2,21 @@
 export TERM=xterm-256color
 export SPARK_HOME=/opt/spark
 export PATH=${SPARK_HOME}/bin:$PATH
+
+# java env
+export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+export CLASSPATH=/usr/share/java/postgresql-jdbc4.jar:$HOME/code_java/jdbc
+# python env
 export PYTHONIOENCODING=utf-8
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
+eval "$(pyenv init -)"
+
+# enable command edit
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey "^Xe" edit-command-line
+bindkey "^X^e" edit-command-line
 
 # enable color
 autoload -Uz colors && colors
@@ -14,6 +28,11 @@ bindkey -e
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end  history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
 
 # PROMPT 2 Line display
 setopt prompt_subst
@@ -44,10 +63,17 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                        /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
-# complete after ps command
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+zstyle ':completion:*:default' menu select
 
-zstyle ':completion:*' menu select interactive
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'      # complete after ps command
+setopt auto_menu                   # enable completion when TAB repeatedly pushed
+setopt auto_param_slash            # add end / when completion
+setopt list_types                  # display file type
+setopt auto_param_keys             # auto complete () etc
+setopt interactive_comments        # comment out after '#'
+setopt magic_equal_subst           # complete after =
+setopt extended_glob               # 高機能なワイルドカード展開を使用する
+setopt globdots                    # match files that starts with dot
 ########################################
 
 # vcs_info
@@ -88,9 +114,6 @@ setopt no_beep
 # disable flow control
 setopt no_flow_control
 
-# comment out after '#'
-setopt interactive_comments
-
 # enable cd only directory name
 setopt auto_cd
 
@@ -99,9 +122,6 @@ setopt auto_pushd
 
 # ignore pushd if dupulicated
 setopt pushd_ignore_dups
-
-# complete after =
-setopt magic_equal_subst
 
 # share history
 setopt share_history
@@ -118,11 +138,7 @@ setopt hist_ignore_space
 # ヒストリに保存するときに余分なスペースを削除する
 setopt hist_reduce_blanks
 
-# 補完候補が複数あるときに自動的に一覧表示する
-setopt auto_menu
 
-# 高機能なワイルドカード展開を使用する
-#setopt extended_glob
 
 ########################################
 # key bind
