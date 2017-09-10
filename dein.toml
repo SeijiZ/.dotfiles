@@ -24,3 +24,9 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'vim-syntastic/syntastic'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo = 'elzr/vim-json'

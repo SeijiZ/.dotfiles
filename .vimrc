@@ -35,11 +35,22 @@ if has('vim_starting') && dein#check_install()
 endif
 
 " Unite vim settings-----------------------
-nnoremap <C-l> :Unite<CR>
+nnoremap [unite] <Nop>
+nmap  <Space> [unite]
 " begin with insert mode
 let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
+nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
+nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
+nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
+nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
+
 
 au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -90,7 +101,7 @@ if has('conceal')
     set conceallevel=2 concealcursor=niv
 endif
 
-" syntastic ------------------------------
+" syntastic -------------------------------
 set statusline+=%#warningmsg#
 set statusline+=%{syntasticstatuslineflag()}
 set statusline+=%*
@@ -99,6 +110,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" vim-json - ------------------------------
+let g:vim_json_syntax_conceal = 0
 
 " vim settings ----------------------------
 set laststatus=2
@@ -136,12 +150,12 @@ set cursorline
 set scrolloff=5
 set noswapfile
 set nobackup
-set viminfo=
+set viminfo+=n$HOME/.cache/.viminfo
 set display=lastline
 set foldmethod=marker
 set autoread
-set undodir=$HOME/.vim/undo
+set undodir=$HOME/.cache//
 set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
 set timeout timeoutlen=1000 ttimeoutlen=75
-set mouse=a
+set mouse=
