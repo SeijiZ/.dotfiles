@@ -41,17 +41,38 @@ nmap  <Space> [unite]
 let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
-nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" add bookmark current buffer
+nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+" open bookmark
+nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
+" list most_recently_used file
 nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+" list most_recently_used directory
 nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+nnoremap <silent> [unite]g :<C-u>Unite grep<CR>
+" list buffer
 nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+" list register
 nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+" list tab
 nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
+" list open file directory
+nnoremap <silent> [unite]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
 nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
+nnoremap <silent> [unite]e :<C-u>VimFiler<CR>
+
+" search file recursive
 nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
 
 
+" split with C-s
+au filetype unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
+au filetype unite inoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
+" vsplit with C-v
+au filetype unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au filetype unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" quit Unite with ESC*2
 au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
@@ -102,19 +123,22 @@ if has('conceal')
 endif
 
 " syntastic -------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{syntasticstatuslineflag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" set statusline+=%#warningmsg#
+" set statusline+=%{syntasticstatuslineflag()}
+" set statusline+=%*
+" 
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
 
 " vim-json - ------------------------------
 let g:vim_json_syntax_conceal = 0
 
 " vim settings ----------------------------
+"set cursorline
+"set cursorcolumn
+set visualbell
 set laststatus=2
 set showcmd
 set number
@@ -159,3 +183,5 @@ set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
 set timeout timeoutlen=1000 ttimeoutlen=75
 set mouse=
+nnoremap <Tab> <C-w>w
+nnoremap <S-Tab> <C-w>W

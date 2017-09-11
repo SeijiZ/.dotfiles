@@ -5,6 +5,12 @@ repo = 'Shougo/dein.vim'
 repo = 'Shougo/Unite.vim'
 
 [[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+
+[[plugins]]
 repo = 'Shougo/neocomplete'
 
 [[plugins]]
@@ -26,7 +32,7 @@ repo = 'tpope/vim-surround'
 repo = 'vim-syntastic/syntastic'
 
 [[plugins]]
-repo = 'Shougo/neomru.vim'
+repo = 'elzr/vim-json'
 
 [[plugins]]
-repo = 'elzr/vim-json'
+repo = 'simeji/winresizer'
