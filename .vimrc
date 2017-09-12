@@ -22,6 +22,7 @@ let s:toml_file = expand('$HOME/.dotfiles').'/dein.toml'
 if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
     call dein#load_toml(s:toml_file)
+    call dein#add('Shougo/vimproc.vim',{'build' : 'make'})
     call dein#end()
     call dein#save_state()
 endif
@@ -60,7 +61,8 @@ nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
 nnoremap <silent> [unite]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
 nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
-nnoremap <silent> [unite]e :<C-u>VimFiler<CR>
+nnoremap <silent> [unite]v :<C-u>VimFiler<CR>
+nnoremap <silent> [unite]e :<C-u>VimFilerExplorer<CR>
 
 " search file recursive
 nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
@@ -75,6 +77,16 @@ au filetype unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vspli
 " quit Unite with ESC*2
 au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
+
+" VimFile settings -----------------------
+call vimfiler#custom#profile('default', 'context', {
+            \   'safe': 0,
+            \   'explorer' : 1,
+            \   'split' : 1,
+            \   'direction' : 'topleft',
+            \   'status' : 1
+            \ })
 
 " lightline vim settings ------------------
 
@@ -151,7 +163,7 @@ set incsearch
 set wildmenu 
 set wildmode=list:full
 set nobackup
-"set clipboard=unnamedplus
+"set clipboard=unnamed
 set hidden
 set showmatch
 "set smarttab
