@@ -60,10 +60,7 @@ nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
 " list open file directory
 nnoremap <silent> [unite]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
-nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR>
-nnoremap <silent> [unite]v :<C-u>VimFiler<CR>
-nnoremap <silent> [unite]e :<C-u>VimFilerExplorer<CR>
-
+nnoremap <silent> [unite]o :<C-u>Unite<Space>outline<CR> 
 " search file recursive
 nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
 
@@ -79,7 +76,9 @@ au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 
-" VimFile settings -----------------------
+" VimFiler settings -----------------------
+nnoremap <silent> [unite]v :<C-u>VimFiler -simple -no-quit<CR>
+nnoremap <silent> [unite]e :<C-u>VimFilerExplorer<CR>
 call vimfiler#custom#profile('default', 'context', {
             \   'safe': 0,
             \   'explorer' : 1,
@@ -88,6 +87,9 @@ call vimfiler#custom#profile('default', 'context', {
             \   'status' : 1
             \ })
 
+let g:vimfiler_as_default_explorer = 1
+au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-k> vimfiler#do_action('split')
+au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action('vsplit')
 " lightline vim settings ------------------
 
 let g:lightline = {
@@ -135,20 +137,21 @@ if has('conceal')
 endif
 
 " syntastic -------------------------------
-" set statusline+=%#warningmsg#
-" set statusline+=%{syntasticstatuslineflag()}
-" set statusline+=%*
-" 
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
+ set statusline+=%#warningmsg#
+ set statusline+=%{syntasticstatuslineflag()}
+ set statusline+=%*
+ 
+ let g:syntastic_always_populate_loc_list = 1
+ let g:syntastic_auto_loc_list = 1
+ let g:syntastic_check_on_open = 1
+ let g:syntastic_check_on_wq = 0
 
 " vim-json - ------------------------------
 let g:vim_json_syntax_conceal = 0
 
 " vim settings ----------------------------
-"set cursorline
+set cursorline
+highlight CursorLine term=reverse cterm=underline ctermfg=none ctermbg=none
 "set cursorcolumn
 set visualbell
 set laststatus=2
@@ -182,7 +185,6 @@ set encoding=utf-8
 set nowrap
 set history=2000
 set helplang=en
-set cursorline
 set scrolloff=5
 set noswapfile
 set nobackup
@@ -195,5 +197,7 @@ set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
 set timeout timeoutlen=1000 ttimeoutlen=75
 set mouse=
+set splitright
+set splitbelow
 nnoremap <Tab> <C-w>w
 nnoremap <S-Tab> <C-w>W
