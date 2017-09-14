@@ -137,14 +137,14 @@ if has('conceal')
 endif
 
 " syntastic -------------------------------
- set statusline+=%#warningmsg#
- set statusline+=%{syntasticstatuslineflag()}
- set statusline+=%*
- 
- let g:syntastic_always_populate_loc_list = 1
- let g:syntastic_auto_loc_list = 1
- let g:syntastic_check_on_open = 1
- let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{syntasticstatuslineflag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " vim-json - ------------------------------
 let g:vim_json_syntax_conceal = 0
@@ -201,3 +201,5 @@ set splitright
 set splitbelow
 nnoremap <Tab> <C-w>w
 nnoremap <S-Tab> <C-w>W
+nnoremap <silent> <C-n> :<C-u>bn<CR>
+nnoremap <silent> <C-p> :<C-u>bp<CR>
