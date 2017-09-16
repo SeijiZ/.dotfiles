@@ -95,25 +95,45 @@ au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action(
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active': {
-            \ 'left': [ [ 'mode', 'paste' ],['readonly', 'filepath', 'modified'] ]
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           ['readonly', 'filename', 'modified'] ],
+            \ 'right': [ ['lineinfo'],
+            \            ['percent'],
+            \            ['fileformat','fileencoding','filetype'] ]
             \ },
             \ 'component_function': {
             \ 'filepath': 'FilePath'
             \ },
             \ } 
-if !has('gui_running')
-    set t_Co=256
-endif
 
-function! FilePath()
-    if winwidth(0) > 90
-        return expand("%:p")
-    else
-       return expand("%:t")
-    endif
-endfunction
+let g:lightline.mode_map = {
+            \ 'n' : 'Normal',
+            \ 'i' : 'Insert',
+            \ 'R' : 'Replace',
+            \ 'v' : 'Visual',
+            \ 'V' : 'V-Line',
+            \ "\<C-v>": 'V-Block',
+            \ 'c' : 'Command',
+            \ 's' : 'Select',
+            \ 'S' : 'S-Line',
+            \ "\<C-s>": 'S-Block',
+            \ 't': 'Terminal',
+            \ }
 
-set noshowmode
+let g:lightline.separator = { 'left': '', 'right': '' }
+let g:lightline.subseparator = { 'left': '>', 'right': '<' }
+"if !has('gui_running')
+"    set t_Co=256
+"endif
+"
+"function! FilePath()
+"    if winwidth(0) > 90
+"        return expand("%:p")
+"    else
+"       return expand("%:t")
+"    endif
+"endfunction
+
 
 " neocomplete.vim -------------------------
 let g:neocomplete#enable_at_startup=1
@@ -137,9 +157,11 @@ if has('conceal')
 endif
 
 " syntastic -------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{syntasticstatuslineflag()}
-set statusline+=%*
+set laststatus=2
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -154,7 +176,6 @@ set cursorline
 highlight CursorLine term=reverse cterm=underline ctermfg=none ctermbg=none
 "set cursorcolumn
 set visualbell
-set laststatus=2
 set showcmd
 set number
 set relativenumber
