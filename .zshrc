@@ -4,13 +4,13 @@ export SPARK_HOME=/opt/spark
 export PATH=${SPARK_HOME}/bin:$PATH
 
 # java env
-export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
-export CLASSPATH=/usr/share/java/postgresql-jdbc4.jar:$HOME/code_java/jdbc
+#export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+#export CLASSPATH=/usr/share/java/postgresql-jdbc4.jar:$HOME/code_java/jdbc
 # python env
-export PYTHONIOENCODING=utf-8
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
+#export PYTHONIOENCODING=utf-8
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
+#eval "$(pyenv init -)"
 
 # enable command edit
 autoload -U edit-command-line
