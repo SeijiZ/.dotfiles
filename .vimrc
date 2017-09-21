@@ -55,6 +55,7 @@ nnoremap <silent> [Plug]g :<C-u>Unite grep<CR>
 nnoremap <silent> [Plug]b :<C-u>Unite<Space>buffer<CR>
 " list register
 nnoremap <silent> [Plug]r :<C-u>Unite<Space>register<CR>
+nnoremap <silent> [Plug]y :<C-u>Unite<Space>history/yank<CR>
 " list tab
 nnoremap <silent> [Plug]t :<C-u>Unite<Space>tab<CR>
 " list open file directory
@@ -62,7 +63,7 @@ nnoremap <silent> [Plug]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [Plug]h :<C-u>Unite<Space>history/unite<CR>
 nnoremap <silent> [Plug]o :<C-u>Unite<Space>outline<CR> 
 " search file recursive
-nnoremap <silent> [Plug]<CR> :<C-u>Unite<Space>file_rec:!<CR>
+nnoremap <silent> [Plug]<CR> :<C-u>UniteWithBufferDir<Space>file_rec/async<CR>
 
 
 " split with C-s

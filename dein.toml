@@ -8,6 +8,9 @@ repo = 'Shougo/Unite.vim'
 repo = 'Shougo/neomru.vim'
 
 [[plugins]]
+repo = 'Shougo/neoyank.vim'
+
+[[plugins]]
 repo = 'Shougo/vimfiler.vim'
 
 [[plugins]]
