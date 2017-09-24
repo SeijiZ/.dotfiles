@@ -2,6 +2,7 @@ if !&compatible
 	set nocompatible
 endif
 
+
 " reset augroup
 augroup MyAutoCmd
 	autocmd!
@@ -28,6 +29,7 @@ if dein#load_state(s:dein_dir)
 endif
 
 filetype plugin indent on
+colorscheme gotham
 syntax enable
 
 " auto install if not
@@ -67,21 +69,21 @@ nnoremap <silent> [Plug]<CR> :<C-u>UniteWithBufferDir<Space>file_rec/async<CR>
 
 
 " split with C-s
-au filetype unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
-au filetype unite inoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
-" vsplit with C-v
-au filetype unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-au filetype unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+"au filetype unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
+"au filetype unite inoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
+"" vsplit with C-v
+"au filetype unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+"au filetype unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
 " quit Unite with ESC*2
 au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 " VimFiler settings -----------------------
 let g:vimfiler_as_default_explorer = 1
-nnoremap <silent> [Plug]v :<C-u>VimFiler -simple -no-quit<CR>
-nnoremap <silent> [Plug]e :<C-u>VimFilerExplorer<CR>
+nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -toggle -no-quit<CR>
 call vimfiler#custom#profile('default', 'context', {
 			\   'explorer' : 1,
+			\   'winwidth' : 30,
 			\   'safe': 0,
 			\   'explorer_columns': 'type',
 			\   'columns': 'type',
@@ -95,8 +97,11 @@ call vimfiler#custom#profile('default', 'context', {
 			\   'auto-cd' : 1
 			\ })
 
-au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-k> vimfiler#do_action('split')
-au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action('vsplit')
+"au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-k> vimfiler#do_action('split')
+"au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action('vsplit')
+autocmd FileType vimfiler 
+        \ nnoremap <buffer><silent>/ 
+        \ :<C-u>Unite file -default-action=vimfiler<CR>
 " lightline vim settings ------------------
 
 let g:lightline = {
@@ -250,3 +255,12 @@ set infercase
 set switchbuf=useopen
 " no flush and no beep
 set vb t_vb=
+" add < > pair
+set matchpairs+=<:>
+" move window with Ctrl + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+set ttyfast
+set lazyredraw
