@@ -41,7 +41,6 @@ endif
 nnoremap [Plug] <Nop>
 nmap  <Space> [Plug]
 " begin with insert mode
-let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 " add bookmark current buffer
@@ -63,10 +62,15 @@ nnoremap <silent> [Plug]t :<C-u>Unite<Space>tab<CR>
 " list open file directory
 nnoremap <silent> [Plug]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [Plug]h :<C-u>Unite<Space>history/unite<CR>
-nnoremap <silent> [Plug]o :<C-u>Unite<Space>outline<CR> 
 " search file recursive
 nnoremap <silent> [Plug]<CR> :<C-u>UniteWithBufferDir<Space>file_rec/async<CR>
+" search current directory
+nnoremap <silent> [Plug]c :<C-u>Unite<Space>file/async<CR>
 
+	call unite#custom#profile('default', 'context', {
+	\   'start_insert': 1,
+	\   'winheight': 12
+	\ })
 
 " split with C-s
 "au filetype unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
@@ -97,15 +101,23 @@ call vimfiler#custom#profile('default', 'context', {
 			\   'auto-cd' : 1
 			\ })
 
+" outline settings ------------------------
+nnoremap <silent> [Plug]o :<C-u>Unite -vertical -direction=botright -no-quit -winwidth=40 outline<CR> 
+
 "au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-k> vimfiler#do_action('split')
 "au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action('vsplit')
-autocmd FileType vimfiler 
-        \ nnoremap <buffer><silent>/ 
-        \ :<C-u>Unite file -default-action=vimfiler<CR>
+"autocmd FileType vimfiler 
+"        \ nnoremap <buffer><silent>/ 
+"        \ :<C-u>Unite file -default-action=vimfiler<CR>
+
+" junkfile.vim ----------------------------
+let g:junkfile#directory = '~/.memo'
+nnoremap <silent> [Plug]j :<C-u>Unite junkfile/new junkfile<CR>
+
 " lightline vim settings ------------------
 
 let g:lightline = {
-			\ 'colorscheme': 'wombat',
+			\ 'colorscheme': 'gotham',
 			\ 'active': {
 			\ 'left': [ [ 'mode', 'paste' ],
 			\           ['readonly', 'filename', 'modified'] ],
@@ -134,6 +146,7 @@ let g:lightline.mode_map = {
 
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '>', 'right': '<' }
+
 "if !has('gui_running')
 "    set t_Co=256
 "endif
@@ -175,16 +188,23 @@ set laststatus=2
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 " vim-json --------------------------------
 let g:vim_json_syntax_conceal = 0
 
-" winresizer ------------------------------
 
+"
+" winresizer ------------------------------
+" vim easy align --------------------------
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 " vim settings ----------------------------
 " highlight current line
 set cursorline
@@ -262,5 +282,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+" make scroll faster and stable
 set ttyfast
 set lazyredraw

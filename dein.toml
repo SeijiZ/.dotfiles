@@ -26,6 +26,9 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'Shougo/unite-outline'
 
 [[plugins]]
+repo = 'Shougo/junkfile.vim'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 
 [[plugins]]
@@ -47,8 +50,7 @@ repo = 'simeji/winresizer'
 repo = 'ujihisa/unite-colorscheme'
 
 [[plugins]]
-repo = 'flazz/vim-colorschemes'
+repo = 'whatyouhide/vim-gotham'
 
 [[plugins]]
-repo = 'chriskempson/base16-vim'
-
+repo = 'junegunn/vim-easy-align'
