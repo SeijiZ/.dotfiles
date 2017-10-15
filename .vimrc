@@ -2,13 +2,14 @@ if !&compatible
 	set nocompatible
 endif
 
-
-" reset augroup
+"reset augroup
 augroup MyAutoCmd
 	autocmd!
 augroup END
 
-" dein settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => dein.vim settings 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
 let s:dein_dir = s:cache_home . '/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
@@ -18,12 +19,13 @@ endif
 
 let &runtimepath = s:dein_repo_dir .",". &runtimepath
 
-" read plugin
-let s:toml_file = expand('$HOME/.dotfiles').'/dein.toml'
+"read plugin
+let s:toml_file = expand('$HOME/.dotfiles/vim/plugins/toml').'/dein.toml'
+let s:toml_lazy_file = expand('$HOME/.dotfiles/vim/plugins/toml').'/dein_lazy.toml'
 if dein#load_state(s:dein_dir)
 	call dein#begin(s:dein_dir)
-	call dein#load_toml(s:toml_file)
-	call dein#add('Shougo/vimproc.vim',{'build' : 'make'})
+	call dein#load_toml(s:toml_file,      {'lazy':0})
+	call dein#load_toml(s:toml_lazy_file, {'lazy':1})
 	call dein#end()
 	call dein#save_state()
 endif
@@ -32,90 +34,14 @@ filetype plugin indent on
 colorscheme gotham
 syntax enable
 
-" auto install if not
+"auto install if not
 if has('vim_starting') && dein#check_install()
     call dein#install()
 endif
 
-" Unite vim settings-----------------------
-nnoremap [Plug] <Nop>
-nmap  <Space> [Plug]
-" begin with insert mode
-let g:unite_enable_ignore_case=1
-let g:unite_enable_smart_case=1
-" add bookmark current buffer
-nnoremap <silent> [Plug]a :<C-u>UniteBookmarkAdd<CR>
-" open bookmark
-nnoremap <silent> [Plug]m :<C-u>Unite bookmark<CR>
-" list most_recently_used file
-nnoremap <silent> [Plug]f :<C-u>Unite<Space>buffer file_mru<CR>
-" list most_recently_used directory
-nnoremap <silent> [Plug]d :<C-u>Unite<Space>directory_mru<CR>
-nnoremap <silent> [Plug]g :<C-u>Unite grep<CR>
-" list buffer
-nnoremap <silent> [Plug]b :<C-u>Unite<Space>buffer<CR>
-" list register
-nnoremap <silent> [Plug]r :<C-u>Unite<Space>register<CR>
-nnoremap <silent> [Plug]y :<C-u>Unite<Space>history/yank<CR>
-" list tab
-nnoremap <silent> [Plug]t :<C-u>Unite<Space>tab<CR>
-" list open file directory
-nnoremap <silent> [Plug]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [Plug]h :<C-u>Unite<Space>history/unite<CR>
-" search file recursive
-nnoremap <silent> [Plug]<CR> :<C-u>UniteWithBufferDir<Space>file_rec/async<CR>
-" search current directory
-nnoremap <silent> [Plug]c :<C-u>Unite<Space>file/async<CR>
-
-	call unite#custom#profile('default', 'context', {
-	\   'start_insert': 1,
-	\   'winheight': 12
-	\ })
-
-" split with C-s
-"au filetype unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
-"au filetype unite inoremap <silent> <buffer> <expr> <C-k> unite#do_action('split')
-"" vsplit with C-v
-"au filetype unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-"au filetype unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" quit Unite with ESC*2
-au filetype unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au filetype unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-
-" VimFiler settings -----------------------
-let g:vimfiler_as_default_explorer = 1
-nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -toggle -no-quit<CR>
-call vimfiler#custom#profile('default', 'context', {
-			\   'explorer' : 1,
-			\   'winwidth' : 30,
-			\   'safe': 0,
-			\   'explorer_columns': 'type',
-			\   'columns': 'type',
-			\   'auto_expand': 1,
-			\   'hidden' : 1,
-			\   'no-quit': 1,
-			\   'force_hide': 0,
-			\   'split' : 1,
-			\   'direction' : 'topleft',
-			\   'status' : 1,
-			\   'auto-cd' : 1
-			\ })
-
-" outline settings ------------------------
-nnoremap <silent> [Plug]o :<C-u>Unite -vertical -direction=botright -no-quit -winwidth=40 outline<CR> 
-
-"au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-k> vimfiler#do_action('split')
-"au filetype VimFiler nnoremap <silent> <buffer> <expr> <C-l> vimfiler#do_action('vsplit')
-"autocmd FileType vimfiler 
-"        \ nnoremap <buffer><silent>/ 
-"        \ :<C-u>Unite file -default-action=vimfiler<CR>
-
-" junkfile.vim ----------------------------
-let g:junkfile#directory = '~/.memo'
-nnoremap <silent> [Plug]j :<C-u>Unite junkfile/new junkfile<CR>
-
-" lightline vim settings ------------------
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => lightline vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
 			\ 'colorscheme': 'gotham',
 			\ 'active': {
@@ -147,42 +73,7 @@ let g:lightline.mode_map = {
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '>', 'right': '<' }
 
-"if !has('gui_running')
-"    set t_Co=256
-"endif
-"
-"function! FilePath()
-"    if winwidth(0) > 90
-"        return expand("%:p")
-"    else
-"       return expand("%:t")
-"    endif
-"endfunction
-
-
-" neocomplete.vim -------------------------
-let g:neocomplete#enable_at_startup=1
-
-" neosnippets.vim -------------------------
-" Plugin key-mappings.
-imap <C-k>    <Plug>(neosnippet_expand_or_jump)
-smap <C-k>    <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>    <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neosnippets#expandable_or_jumpable() ?
-"            \"\<Plug>(neosnippet_expand_or_jump)" 
-"            \: pumvisible() ? "\<C-n>" : "\<TAB>"
-"smap <expr><TAB> neosnippets#expandable_or_jumpable() ?
-"            \"\<Plug>(neosnippet_expand_or_jump)" 
-"            \: "\<TAB>"
-
-if has('conceal')
-	set conceallevel=2 concealcursor=niv
-endif
-
-" syntastic -------------------------------
-set laststatus=2
+"******************** syntastic ********************
 "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
@@ -193,24 +84,16 @@ set laststatus=2
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
-" vim-json --------------------------------
-let g:vim_json_syntax_conceal = 0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim basic settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"highlight cursorline ohter than insert mode
+autocmd WinEnter     * set cursorline
+autocmd WinLeave     * set nocursorline
+autocmd InsertEnter  * set nocursorline
+autocmd InsertLeave  * set cursorline
+highlight CursorLine term=reverse cterm=none ctermbg=235
 
-
-"
-" winresizer ------------------------------
-" vim easy align --------------------------
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-" vim settings ----------------------------
-" highlight current line
-set cursorline
-highlight CursorLine term=reverse cterm=underline ctermfg=none ctermbg=none
-"set cursorcolumn
-"set colorcolumn=50
 set visualbell
 set showcmd
 set number
@@ -224,16 +107,18 @@ set wildmenu
 set wildmode=list:full
 set nobackup
 set hidden
+"setting matching pair like <>,()
 set showmatch
+set matchtime=1
 "set smarttab
 set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set smartindent
-" display tab and eol
+"display tab and eol
 set list
-" symbol of tab,trail,eol
+"symbol of tab,trail,eol
 set listchars=tab:»-,trail:-,nbsp:%,eol:$
 set whichwrap=b,s,h,l,<,>,[,],~
 set wrapscan
@@ -244,7 +129,7 @@ set nowrap
 set history=2000
 set helplang=en
 set scrolloff=5
-set viminfo+=n$HOME/.cache/.viminfo
+set viminfo+=n$HOME/.dotfiles/vim/tmp/viminfo
 set display=lastline
 set foldmethod=marker
 set autoread
@@ -252,18 +137,19 @@ set undodir=$HOME/.cache//
 set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
 set timeout timeoutlen=1000 ttimeoutlen=75
-" disable mouse
+"disable mouse
 set mouse=
 set splitright
 set splitbelow
 set noshowmode
-nnoremap <Tab> <C-w>w
-nnoremap <S-Tab> <C-w>W
-nnoremap <silent> <C-n> :<C-u>bn<CR>
-nnoremap <silent> <C-p> :<C-u>bp<CR>
-" visual to the end of the line
+set modifiable
+set write
+set laststatus=2
+"set completion's height
+set pumheight=10
+"visual to the end of the line
 vnoremap v $h
-" set clipboard
+"set clipboard
 if has('unnamedplus')
 	set clipboard+=unnamedplus,unnamed
 else
@@ -271,17 +157,104 @@ else
 endif
 
 set infercase
-" open buffer instead of open new
+"open buffer instead of open new
 set switchbuf=useopen
-" no flush and no beep
+"no flush and no beep
 set vb t_vb=
-" add < > pair
+"add < > pair
 set matchpairs+=<:>
-" move window with Ctrl + hjkl
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-" make scroll faster and stable
+"make scroll faster and stable
 set ttyfast
 set lazyredraw
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Key Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Prefix
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap [Plug] <Nop>
+nmap  <Space> [Plug]
+xnoremap [Plug] <Nop>
+xmap  <Space> [Plug]
+nnoremap [Meta] <Nop>
+nmap  , [Meta]
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Normal mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Zoom/Restore window.
+function! ZoomToggle() abort
+	if exists('t:zoomed') && t:zoomed
+		execute t:zoom_winrestcmd
+		let t:zoomed = 0
+	else
+		let t:zoom_winrestcmd = winrestcmd()
+		resize
+		vertical resize
+		let t:zoomed = 1
+	endif
+endfunction
+nnoremap <silent> [Meta]z :<C-u>call ZoomToggle()<CR>
+"source ~/.vimrc
+nnoremap <silent> [Meta]v :<C-u>source ~/.vimrc<CR>
+" toggle spell
+nnoremap <silent> [Meta]s :<C-u>setl spell! spell?<CR>
+" toggle list
+nnoremap <silent> [Meta]l :<C-u>setl list! list?<CR>
+nnoremap <silent> [Meta]t :<C-u>setl expandtab! expandtab?<CR>
+nnoremap <silent> [Meta]w :<C-u>setl wrap! wrap?<CR>
+nnoremap <silent> [Meta]p :<C-u>setl paste! paste?<CR>
+nnoremap <silent> [Meta]b :<C-u>setl scrollbind! scrollbind?<CR>
+function! s:toggle_syntax() abort
+	if exists('g:syntax_on')
+		syntax off
+		redraw
+		echo 'syntax off'
+	else
+		syntax on
+		redraw
+		echo 'syntax on'
+	endif
+endfunction
+nnoremap <silent> [Meta]y :call <SID>toggle_syntax()<CR>
+
+"move window
+nnoremap <Tab> <C-w>w
+nnoremap <S-Tab> <C-w>W
+"move buffer
+nnoremap <silent> <C-n> :<C-u>bn<CR>
+nnoremap <silent> <C-p> :<C-u>bp<CR>
+"move ^ and $
+noremap <S-h> ^
+noremap <S-l> $
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Insert mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap <C-a> <C-o>^
+inoremap <C-e> <C-o>$
+inoremap <C-f> <C-o>w
+inoremap <C-b> <C-o>b
+inoremap <C-d> <C-o>x
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Visual mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"search inside selected range
+vnoremap z/ <ESC>/\%
+vnoremap z? <ESC>?\%V
+
+"reselect after < or >
+xnoremap < <gv
+xnoremap > >gv
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+cnoremap <C-n> <down>
+cnoremap <C-p> <up>
+" save as sudo with w!!
+cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
