@@ -55,7 +55,7 @@ inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 inoremap <silent> <buffer> <C-k> <C-o>D
 endfunction
 
-"******************** enable ag instead of grep ********************
+" enable ag instead of grep
 nnoremap <silent> [Plug]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
 if executable('ag')
 let g:unite_source_grep_command = 'ag'

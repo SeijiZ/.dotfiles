@@ -8,6 +8,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'whatyouhide/vim-gotham'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 
 [[plugins]]
@@ -18,38 +21,45 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'vim-syntastic/syntastic'
+# "******************** syntastic ********************
+# "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+# "set statusline+=%#warningmsg#
+# "set statusline+=%{SyntasticStatuslineFlag()}
+# "set statusline+=%*
+#
+# "let g:syntastic_always_populate_loc_list = 1
+# "let g:syntastic_auto_loc_list = 1
+# "let g:syntastic_check_on_open = 1
+# "let g:syntastic_check_on_wq = 0
 
 [[plugins]]
 repo = 'elzr/vim-json'
 hook_add = '''
-let g:vim_json_syntax_conceal = 0
+	let g:vim_json_syntax_conceal = 0
 '''
 
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
-nnoremap <silent> [Plug]w :WinResizerStartResize<CR> 
+	nnoremap <silent> [Plug]w :WinResizerStartResize<CR> 
 '''
-
-[[plugins]]
-repo = 'whatyouhide/vim-gotham'
 
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 hook_add = '''
-"Start interactive EasyAlign in visual mode (e.g. vipga)
-vmap <Enter> <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-"Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+	"Start interactive EasyAlign in visual mode (e.g. vipga)
+	vmap <Enter> <Plug>(EasyAlign)
+	xmap ga <Plug>(EasyAlign)
+	"Start interactive EasyAlign for a motion/text object (e.g. gaip)
+	nmap ga <Plug>(EasyAlign)
 '''
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 hook_add = '''
-let g:vimfiler_as_default_explorer = 1
-nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -toggle -no-quit<CR>
-call vimfiler#custom#profile('default', 'context', {
+	let g:vimfiler_as_default_explorer = 1
+	nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -toggle -no-quit<CR>
+	call vimfiler#custom#profile('default', 'context', {
 			\   'explorer' : 1,
 			\   'winwidth' : 30,
 			\   'safe': 0,
@@ -69,13 +79,13 @@ call vimfiler#custom#profile('default', 'context', {
 [[plugins]]
 repo = 'Shougo/unite-outline'
 hook_add = '''
-nnoremap <silent> [Plug]o :<C-u>Unite -vertical -direction=botright -no-quit -winwidth=40 outline<CR> 
+	nnoremap <silent> [Plug]o :<C-u>Unite -vertical -direction=botright -no-quit -winwidth=40 outline<CR> 
 '''
 
 [[plugins]]
 repo = 'Shougo/junkfile.vim'
 hook_add = '''
-let g:junkfile#directory = '~/.memo'
+let g:junkfile#directory = '~/.dotfiles/vim/tmp/junks/'
 nnoremap <silent> [Plug]j :<C-u>Unite junkfile/new junkfile<CR>
 '''
 

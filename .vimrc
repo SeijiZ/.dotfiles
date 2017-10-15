@@ -73,16 +73,6 @@ let g:lightline.mode_map = {
 let g:lightline.separator = { 'left': '', 'right': '' }
 let g:lightline.subseparator = { 'left': '>', 'right': '<' }
 
-"******************** syntastic ********************
-"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim basic settings
@@ -129,11 +119,12 @@ set nowrap
 set history=2000
 set helplang=en
 set scrolloff=5
-set viminfo+=n$HOME/.dotfiles/vim/tmp/viminfo
+set viminfo+=n$HOME/.dotfiles/vim/tmp/.viminfo
 set display=lastline
 set foldmethod=marker
 set autoread
-set undodir=$HOME/.cache//
+set undodir=$HOME/.dotfiles/vim/tmp/
+set undofile
 set backspace=indent,eol,start
 set nrformats=    " C-a and C-x motion ignore octal
 set timeout timeoutlen=1000 ttimeoutlen=75
@@ -239,7 +230,6 @@ inoremap <C-f> <C-o>w
 inoremap <C-b> <C-o>b
 inoremap <C-d> <C-o>x
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -254,7 +244,5 @@ xnoremap > >gv
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-cnoremap <C-n> <down>
-cnoremap <C-p> <up>
 " save as sudo with w!!
 cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
