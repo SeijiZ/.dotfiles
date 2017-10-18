@@ -13,6 +13,15 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
 eval "$(pyenv init -)"
 
+# XDG Base Directory Specification
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export PATH=$PATH:$HOME/.nodebrew/current/bin
+
+export NVIM_PYTHON_LOG_FILE=/tmp/log
+export NVIM_PYTHON_LOG_LEVEL=DEBUG
+
 # enable command edit
 autoload -U edit-command-line
 zle -N edit-command-line

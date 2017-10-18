@@ -27,7 +27,7 @@ set scrolloff=3
 
 nnoremap <S-h> ^
 nnoremap <S-l> $
-
+nnoremap ,z :max<CR>
 
 nnoremap gl :ls<cr>
 " select last inserted text

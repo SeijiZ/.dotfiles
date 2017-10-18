@@ -2,47 +2,40 @@
 " => Unite.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"begin with insert mode
+autocmd VimEnter * call unite#custom#profile('default', 'context', {
+			\   'start_insert': 1,
+			\   'winheight': 12,
+			\   'direction': 'botright',
+			\ })
+
+let g:unite_enable_auto_select = 0
+let g:unite_restore_alternate_file = 1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 let g:unite_enable_auto_select = 0
-"open bookmark
 "list most_recently_used file
-nnoremap <silent> [Plug]f :<C-u>Unite<Space>buffer file_mru<CR>
-"list most_recently_used directory
-nnoremap <silent> [Plug]d :<C-u>Unite<Space>directory_mru<CR>
+nnoremap <silent> [Plug]uf :<C-u>Unite buffer file_mru<CR>
 "list buffer
-nnoremap <silent> [Plug]b :<C-u>Unite<Space>buffer<CR>
+nnoremap <silent> [Plug]ub :<C-u>Unite buffer<CR>
+"list most_recently_used directory
+nnoremap <silent> [Plug]ud :<C-u>Unite directory_mru<CR>
 "history
-nnoremap <silent> [Plug]y :<C-u>Unite<Space>history/yank<CR>
+nnoremap <silent> [Plug]uy :<C-u>Unite register history/yank<CR>
 "list tab
-nnoremap <silent> [Plug]t :<C-u>Unite<Space>tab<CR>
+nnoremap <silent> [Plug]ut :<C-u>Unite tab<CR>
 "list open file directory
-nnoremap <silent> [Plug]l :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [Plug]h :<C-u>Unite<Space>history/unite<CR>
-"search file recursive and if inside git work tree, exec file_rec/git
-function! IsInsideWorkTree()
-	cd %:p:h
-	let l:is_inside = system('git rev-parse --is-inside-work-tree')
-	return l:is_inside == "true\n" ? 1 : 0
-endfunction
-
-function! UniteFileRecSource()
-	if IsInsideWorkTree()
-		let dir = unite#util#path2project_directory(expand('%'))
-		execute 'Unite file_rec/git:' .dir
-	else
-		execute 'UniteWithBufferDir file_rec/async'
-	endif
-endfunction
-nnoremap <silent> [Plug]<CR> :<C-u>call UniteFileRecSource()<CR>
 "search current directory
-nnoremap <silent> [Plug]c :<C-u>Unite<Space>file/async<CR>
+nnoremap <silent> [Plug]us :<C-u>Unite file_rec/async<CR>
+nnoremap <silent> [Plug]ul :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [Plug]uh :<C-u>Unite history/unite<CR>
+" enable ag instead of grep
+nnoremap <silent> [Plug]ug :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+if executable('ag')
+	let g:unite_source_grep_command = 'ag'
+	let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+	let g:unite_source_grep_recursive_opt = ''
+endif
 
-call unite#custom#profile('default', 'context', {
-			\   'start_insert': 1,
-			\   'winheight': 12
-			\ })
 
 autocmd MyAutoCmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings() abort
@@ -51,21 +44,13 @@ function! s:unite_my_settings() abort
 
 	"overwrite settings
 	imap <buffer>  jj         <Plug>(unite_insert_leave)
-	nnoremap <silent><buffer> <Tab>     <C-w>w
+	imap <buffer>  kk         <Plug>(unite_insert_leave)
 	nmap <buffer> x           <Plug>(unite_quick_match_jump)
-"quit Unite with ESC*2
+	"quit Unite with ESC*2
 	nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 	inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 	inoremap <silent> <buffer> <C-k> <C-o>D
 endfunction
-
-" enable ag instead of grep
-nnoremap <silent> [Plug]ag :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-if executable('ag')
-	let g:unite_source_grep_command = 'ag'
-	let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-	let g:unite_source_grep_recursive_opt = ''
-endif
 
 " unite menu
 let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
@@ -102,4 +87,4 @@ let g:unite_source_menu_menus.git.command_candidates = [
 			\['git cd           (Fugitive)',
 			\'Gcd'],
 			\]
-nnoremap <silent> [Plug]m :<C-u>Unite menu<CR>
+nnoremap <silent> [Plug]um :<C-u>Unite menu<CR>

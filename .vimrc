@@ -1,3 +1,9 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => neovim python provider
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:python_host_prog = system('echo -n $(which python2)')
+let g:python3_host_prog = system('echo -n $(which python3)')
+
 if !&compatible
 	set nocompatible
 endif
@@ -84,6 +90,14 @@ autocmd InsertEnter  * set nocursorline
 autocmd InsertLeave  * set cursorline
 highlight CursorLine term=reverse cterm=none ctermbg=235
 
+"quickfix
+autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
+"<S-k> jump to vim help
+augroup setKhelp
+	autocmd!
+	autocmd FileType vim setlocal keywordprg=:help
+augroup END
+
 set visualbell
 set showcmd
 set number
@@ -119,7 +133,9 @@ set nowrap
 set history=2000
 set helplang=en
 set scrolloff=5
-set viminfo+=n$HOME/.dotfiles/vim/tmp/.viminfo
+if !has('nvim')
+set viminfo+=n$HOME/.local/share/viminfo
+endif
 set display=lastline
 set foldmethod=marker
 set autoread
@@ -158,6 +174,7 @@ set matchpairs+=<:>
 "make scroll faster and stable
 set ttyfast
 set lazyredraw
+set shell=bash\ -i
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Key Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -171,6 +188,8 @@ xnoremap [Plug] <Nop>
 xmap  <Space> [Plug]
 nnoremap [Meta] <Nop>
 nmap  , [Meta]
+xnoremap [Meta] <Nop>
+xmap  , [Meta]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Normal mode
@@ -235,6 +254,7 @@ inoremap <C-f> <C-o>w
 inoremap <C-b> <C-o>b
 inoremap <C-d> <C-o>x
 inoremap <silent> jj <ESC>
+inoremap <silent> kk <ESC>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual mode

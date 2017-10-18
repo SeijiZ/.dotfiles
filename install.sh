@@ -15,3 +15,5 @@ do
 
 done
 
+mkdir -p $HOME/.config/nvim
+ln -s ./.vimrc $HOME/.config/nvim/init.vim
