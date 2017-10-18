@@ -14,7 +14,7 @@ let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
 let s:dein_dir = s:cache_home . '/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 if !isdirectory(s:dein_repo_dir)
-    call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir)) 
+	call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir)) 
 endif
 
 let &runtimepath = s:dein_repo_dir .",". &runtimepath
@@ -36,7 +36,7 @@ syntax enable
 
 "auto install if not
 if has('vim_starting') && dein#check_install()
-    call dein#install()
+	call dein#install()
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -102,9 +102,9 @@ set showmatch
 set matchtime=1
 "set smarttab
 set noexpandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set smartindent
 "display tab and eol
 set list
@@ -123,10 +123,11 @@ set viminfo+=n$HOME/.dotfiles/vim/tmp/.viminfo
 set display=lastline
 set foldmethod=marker
 set autoread
-set undodir=$HOME/.dotfiles/vim/tmp/
 set undofile
+set undodir=$HOME/.dotfiles/vim/tmp/undo
 set backspace=indent,eol,start
-set nrformats=    " C-a and C-x motion ignore octal
+" C-a and C-x motion ignore octal
+set nrformats=
 set timeout timeoutlen=1000 ttimeoutlen=75
 "disable mouse
 set mouse=
@@ -193,6 +194,7 @@ nnoremap <silent> [Meta]v :<C-u>source ~/.vimrc<CR>
 " toggle spell
 nnoremap <silent> [Meta]s :<C-u>setl spell! spell?<CR>
 " toggle list
+nnoremap <silent> [Meta]a :<C-u>setl smartindent! smartindent?<CR>
 nnoremap <silent> [Meta]l :<C-u>setl list! list?<CR>
 nnoremap <silent> [Meta]t :<C-u>setl expandtab! expandtab?<CR>
 nnoremap <silent> [Meta]w :<C-u>setl wrap! wrap?<CR>
@@ -211,15 +213,18 @@ function! s:toggle_syntax() abort
 endfunction
 nnoremap <silent> [Meta]y :call <SID>toggle_syntax()<CR>
 
-"move window
-nnoremap <Tab> <C-w>w
-nnoremap <S-Tab> <C-w>W
 "move buffer
 nnoremap <silent> <C-n> :<C-u>bn<CR>
 nnoremap <silent> <C-p> :<C-u>bp<CR>
 "move ^ and $
 noremap <S-h> ^
 noremap <S-l> $
+"move window
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Insert mode
@@ -229,12 +234,13 @@ inoremap <C-e> <C-o>$
 inoremap <C-f> <C-o>w
 inoremap <C-b> <C-o>b
 inoremap <C-d> <C-o>x
+inoremap <silent> jj <ESC>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "search inside selected range
-vnoremap z/ <ESC>/\%
+vnoremap z/ <ESC>/\%V
 vnoremap z? <ESC>?\%V
 
 "reselect after < or >

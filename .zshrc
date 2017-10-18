@@ -155,6 +155,7 @@ alias ll='ls -l'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias cl='clear'
 
 alias mkdir='mkdir -p'
 

@@ -58,7 +58,11 @@ hook_add = '''
 repo = 'Shougo/vimfiler.vim'
 hook_add = '''
 	let g:vimfiler_as_default_explorer = 1
-	nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -toggle -no-quit<CR>
+	nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -simple -buffer-name=test -auto-cd -toggle -no-quit<CR>
+	autocmd FileType vimfiler nmap <buffer> <C-j> <C-w>j
+	autocmd FileType vimfiler nmap <buffer> <C-k> <C-w>k
+	autocmd FileType vimfiler nmap <buffer> <C-h> <C-w>h
+	autocmd FileType vimfiler nmap <buffer> <C-l> <C-w>l
 	call vimfiler#custom#profile('default', 'context', {
 			\   'explorer' : 1,
 			\   'winwidth' : 30,
@@ -117,15 +121,29 @@ hook_post_update = '''
 '''
 
 [[plugins]]
-repo = 'tpope/vim-fugitive'
-
-[[plugins]]
 repo = 'tyru/caw.vim'
 hook_add = '''
 nmap [Plug]/ <Plug>(caw:hatpos:toggle)
 vmap [Plug]/ <Plug>(caw:hatpos:toggle)
 '''
 
-
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+	source ~/.dotfiles/vim/plugins/config/fugitive_config.vim
+'''
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+hook_add = '''
+	source ~/.dotfiles/vim/plugins/config/quickrun_config.vim
+'''
+
+[[plugins]]
+repo = 'osyo-manga/unite-filetype'
+
+[[plugins]]
+repo = 'christoomey/vim-tmux-navigator'
