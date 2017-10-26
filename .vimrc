@@ -46,41 +46,6 @@ if has('vim_starting') && dein#check_install()
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => lightline vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:lightline = {
-			\ 'colorscheme': 'gotham',
-			\ 'active': {
-			\ 'left': [ [ 'mode', 'paste' ],
-			\           ['readonly', 'filename', 'modified'] ],
-			\ 'right': [ ['lineinfo'],
-			\            ['percent'],
-			\            ['fileformat','fileencoding','filetype'] ]
-			\ },
-			\ 'component_function': {
-			\ 'filepath': 'FilePath'
-			\ },
-			\ } 
-
-let g:lightline.mode_map = {
-			\ 'n' : 'Normal',
-			\ 'i' : 'Insert',
-			\ 'R' : 'Replace',
-			\ 'v' : 'Visual',
-			\ 'V' : 'V-Line',
-			\ "\<C-v>": 'V-Block',
-			\ 'c' : 'Command',
-			\ 's' : 'Select',
-			\ 'S' : 'S-Line',
-			\ "\<C-s>": 'S-Block',
-			\ 't': 'Terminal',
-			\ }
-
-let g:lightline.separator = { 'left': '', 'right': '' }
-let g:lightline.subseparator = { 'left': '>', 'right': '<' }
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim basic settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "highlight cursorline ohter than insert mode
