@@ -4,8 +4,7 @@ repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 depends = 'context_filetype.vim'
-on_i = 1
-hook_source = '''
+hook_add = '''
 	source ~/.dotfiles/vim/plugins/config/deoplete_config.vim
 '''
 
