@@ -1,8 +1,8 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => neovim python provider
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:python_host_prog = system('echo -n $(which python2)')
-let g:python3_host_prog = system('echo -n $(which python3)')
+let g:python_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python") || echo -n $(which python2)')
+let g:python3_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python") || echo -n $(which python3)')
 
 if !&compatible
 	set nocompatible
@@ -28,10 +28,12 @@ let &runtimepath = s:dein_repo_dir .",". &runtimepath
 "read plugin
 let s:toml_file = expand('$HOME/.dotfiles/vim/plugins/toml').'/dein.toml'
 let s:toml_lazy_file = expand('$HOME/.dotfiles/vim/plugins/toml').'/dein_lazy.toml'
+let s:deoplete_toml_file = expand('$HOME/.dotfiles/vim/plugins/toml').'/deoplete.toml'
 if dein#load_state(s:dein_dir)
 	call dein#begin(s:dein_dir)
 	call dein#load_toml(s:toml_file,      {'lazy':0})
 	call dein#load_toml(s:toml_lazy_file, {'lazy':1})
+	call dein#load_toml(s:deoplete_toml_file, {'lazy':0})
 	call dein#end()
 	call dein#save_state()
 endif
@@ -183,6 +185,7 @@ nnoremap <silent> [Meta]t :<C-u>setl expandtab! expandtab?<CR>
 nnoremap <silent> [Meta]w :<C-u>setl wrap! wrap?<CR>
 nnoremap <silent> [Meta]p :<C-u>setl paste! paste?<CR>
 nnoremap <silent> [Meta]b :<C-u>setl scrollbind! scrollbind?<CR>
+nnoremap <silent> [Meta]m :<C-u>Man 
 function! s:toggle_syntax() abort
 	if exists('g:syntax_on')
 		syntax off

@@ -1,0 +1,32 @@
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
+on_i = 1
+hook_source = '''
+	source ~/.dotfiles/vim/plugins/config/deoplete_config.vim
+'''
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+
+[[plugins]]
+repo = 'tweekmonster/deoplete-clang2'
+on_ft = ['c', 'cpp']
+hook_source = '''
+  autocmd FileType c,cpp let b:clang2_orig_maps = {}
+'''
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'zchee/deoplete-go'
+on_i = 1
+on_ft = 'go'

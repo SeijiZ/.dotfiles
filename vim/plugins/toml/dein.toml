@@ -5,6 +5,12 @@ repo = 'Shougo/dein.vim'
 repo = 'Shougo/neomru.vim'
 
 [[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_if = 1
+on_event = 'TextYankPost'
+on_source = ['unite.vim', 'denite.nvim']
+
+[[plugins]]
 repo = 'Shougo/unite.vim'
 # on_if = 1
 depends = 'neomru.vim'
@@ -144,3 +150,4 @@ repo = 'Shougo/denite.nvim'
 hook_add = '''
 	source ~/.dotfiles/vim/plugins/config/denite_config.vim
 '''
+
