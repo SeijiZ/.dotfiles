@@ -138,3 +138,9 @@ repo = 'vim-airline/vim-airline'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+	source ~/.dotfiles/vim/plugins/config/denite_config.vim
+'''
