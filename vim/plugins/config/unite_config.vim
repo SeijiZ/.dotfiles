@@ -29,7 +29,7 @@ nnoremap <silent> [Plug]us :<C-u>Unite file_rec/async<CR>
 nnoremap <silent> [Plug]ul :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [Plug]uh :<C-u>Unite history/unite<CR>
 " enable ag instead of grep
-nnoremap <silent> [Plug]ug :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> [Plug]ug :<C-u>Unite grep:. -buffer-name=search<CR>
 if executable('ag')
 	let g:unite_source_grep_command = 'ag'
 	let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
