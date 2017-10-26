@@ -135,6 +135,18 @@ call denite#custom#option('default',{
 			\'auto_accel': 'true',
 			\'highlight-mode-insert': 'Search',
 			\})
+call denite#custom#option('search',{
+			\'prompt': '>',
+			\'winheight': '10',
+			\'auto_accel': 'true',
+			\'highlight-mode-insert': 'Search',
+			\})
+call denite#custom#option('register',{
+			\'prompt': '>',
+			\'winheight': '10',
+			\'auto_accel': 'true',
+			\'highlight-mode-insert': 'Search',
+			\})
 call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy', 'matcher_project_files', 'matcher_ignore_globs'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',

@@ -139,7 +139,6 @@ set matchpairs+=<:>
 "make scroll faster and stable
 set ttyfast
 set lazyredraw
-set shell=bash\ -i
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Key Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
