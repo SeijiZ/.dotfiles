@@ -1,4 +1,5 @@
-# define environmental variable
+########################################
+# Environmental variable
 export TERM=xterm-256color
 export SPARK_HOME=/opt/spark
 export PATH=${SPARK_HOME}/bin:$PATH
@@ -7,20 +8,24 @@ export PATH=${SPARK_HOME}/bin:$PATH
 export JAVA_HOME=$(/usr/libexec/java_home)
 #export CLASSPATH=/usr/share/java/postgresql-jdbc4.jar:$HOME/code_java/jdbc
 export PATH=$PATH:/Applications/dsdriver/bin
+
 # python env
 export PYTHONIOENCODING=utf-8
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
 eval "$(pyenv init -)"
 
+# python nvim
+export NVIM_PYTHON_LOG_FILE=/tmp/log
+export NVIM_PYTHON_LOG_LEVEL=DEBUG
+
 # XDG Base Directory Specification
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
-export PATH=$PATH:$HOME/.nodebrew/current/bin
 
-export NVIM_PYTHON_LOG_FILE=/tmp/log
-export NVIM_PYTHON_LOG_LEVEL=DEBUG
+# nodebrew
+export PATH=$PATH:$HOME/.nodebrew/current/bin
 
 # enable command edit
 autoload -U edit-command-line
@@ -34,7 +39,16 @@ autoload -Uz colors && colors
 # bind like emacs
 bindkey -e
 
-# history config
+########################################
+# Plugin
+# source ~/.zplug/init.zsh
+# zplug "b4b4r07/enhancd", use:init.sh
+# ENHANCD_FILTER=fzf
+# export ENHANCD_FILTER
+#
+#
+########################################
+# History
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -44,48 +58,15 @@ zle -N history-beginning-search-forward-end  history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-# PROMPT 2 Line display
+
+########################################
+# Prompt
 setopt prompt_subst
 PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
- >> "
+ %(?.%{${fg[green]}%}>> .%{${fg[red]}%}>> )%{${reset_color}%}"
 
 autoload -U promptinit && promptinit
-
-# define delimiter
-autoload -Uz select-word-style
-select-word-style default
-# specify chars as delimiter
-zstyle ':zle:*' word-chars " /=;@:{},|"
-zstyle ':zle:*' word-style unspecified
-
 ########################################
-# completion settings
-# enable completion
-autoload -Uz compinit && compinit
-
-# ignore case in completion
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-# not complete after ../
-zstyle ':completion:*' ignore-parents parent pwd ..
-
-# complete after sudo
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                       /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-
-zstyle ':completion:*:default' menu select
-
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'      # complete after ps command
-setopt auto_menu                   # enable completion when TAB repeatedly pushed
-setopt auto_param_slash            # add end / when completion
-setopt list_types                  # display file type
-setopt auto_param_keys             # auto complete () etc
-setopt interactive_comments        # comment out after '#'
-setopt magic_equal_subst           # complete after =
-setopt extended_glob               # 高機能なワイルドカード展開を使用する
-setopt globdots                    # match files that starts with dot
-########################################
-
 # vcs_info
 # %a action
 # %b branch
@@ -111,6 +92,50 @@ function _update_vcs_info_msg(){
 
 add-zsh-hook precmd _update_vcs_info_msg
 RPROMPT="%1(v|%F{cyan}%1v%f|)"
+
+########################################
+# Delimiter
+# define delimiter
+autoload -Uz select-word-style
+select-word-style default
+# specify chars as delimiter
+zstyle ':zle:*' word-chars " /=;@:{},|"
+zstyle ':zle:*' word-style unspecified
+
+########################################
+# Completion
+# enable completion
+autoload -Uz compinit && compinit
+
+# ignore case in completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# not complete after ../
+zstyle ':completion:*' ignore-parents parent pwd ..
+
+# complete after sudo
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+                       /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+
+zstyle ':completion:*:default' menu select=1
+zmodload zsh/complist
+
+# select complete-menu like vi
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'      # complete after ps command
+setopt auto_menu                   # enable completion when TAB repeatedly pushed
+setopt auto_param_slash            # add end / when completion
+setopt list_types                  # display file type
+setopt auto_param_keys             # auto complete () etc
+setopt interactive_comments        # comment out after '#'
+setopt magic_equal_subst           # complete after =
+setopt extended_glob               # 高機能なワイルドカード展開を使用する
+setopt globdots                    # match files that starts with dot
+
 
 
 ########################################
@@ -149,11 +174,60 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 
 
+########################################
+# User Defined Function
+
+# cd ghq managed git directory with fzf
+function fzf-ghq() {
+local selected
+selected="$(ghq list --full-path | fzf --reverse --query="$LBUFFER")"
+if [ -n "$selected" ] ; then
+	BUFFER="builtin cd $selected"
+fi
+zle reset-prompt
+}
+
+zle -N fzf-ghq
+bindkey '^]' fzf-ghq
+
+# use history list with fzf
+if which fzf >/dev/null 2>&1 ; then
+	function select-history-fzf(){
+		BUFFER=$(history -n -r 1 | fzf --no-sort --reverse +m --query "$LBUFFER" --prompt="History > ")
+		CURSOR=$#BUFFER
+	}
+	zle -N select-history-fzf
+	bindkey '^r' select-history-fzf
+else
+	bindkey '^r' history-incremental-pattern-search-backward
+fi
+
+function git-branch-fzf()
+{
+	local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | perl -pne 's{^refs/heads/}{}' | fzf --query "$LBUFFER")
+	if [ -n "$selected_branch" ]; then
+		BUFFER="git checkout ${selected_branch}"
+		zle accept-line
+	fi
+
+	zle reset-prompt
+}
+zle -N git-branch-fzf
+bindkey '^b' git-branch-fzf
+
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
 
 ########################################
 # key bind
 # enable wildcard with * when ^R
-bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # alias
@@ -174,6 +248,9 @@ alias sudo='sudo '
 # global alias
 alias -g L='| less'
 alias -g G='| grep'
+
+# clear
+alias cl=/usr/bin/clear
 
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
@@ -205,3 +282,6 @@ esac
 
 # vim:set ft=zsh:
 
+
+### Added by the Bluemix CLI
+source /usr/local/Bluemix/bx/zsh_autocomplete

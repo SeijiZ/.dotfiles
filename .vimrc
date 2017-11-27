@@ -1,8 +1,18 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => neovim python provider
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:python_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python") || echo -n $(which python2)')
-let g:python3_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python") || echo -n $(which python3)')
+if $SHELL =~ 'fish'
+	set shell=bash
+endif
+
+" check shell
+" if $SHELL =~ 'fish'
+" 	let g:python3_host_prog = system('echo -n (pyenv root)/versions/(pyenv global)/bin/python3')
+" else
+	let g:python3_host_prog = system('echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python3"')
+" endif
+
+" let g:python_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(pyenv global)/bin/python") || echo -n $(which python2)')
 
 if !&compatible
 	set nocompatible
@@ -107,7 +117,7 @@ set display=lastline
 set foldmethod=marker
 set autoread
 set undofile
-set undodir=$HOME/.dotfiles/vim/tmp/undo
+set undodir=$HOME/.local/share/nvim/undo
 set backspace=indent,eol,start
 " C-a and C-x motion ignore octal
 set nrformats=
@@ -122,8 +132,6 @@ set write
 set laststatus=2
 "set completion's height
 set pumheight=10
-"visual to the end of the line
-vnoremap v $h
 "set clipboard
 if has('unnamedplus')
 	set clipboard+=unnamedplus,unnamed
@@ -234,8 +242,18 @@ vnoremap z? <ESC>?\%V
 xnoremap < <gv
 xnoremap > >gv
 
+"visual to the end of the line
+vnoremap v $h
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " save as sudo with w!!
 cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
+
+function! s:search(pat)
+    let g:search_yank_cache = []
+    execute '%s/' . a:pat . '/\=add(g:cache, submatch(0))/n'
+    call setreg(v:register,join(g:search_yank_cache, "\n"))
+endfunction
+command! -nargs=* SearchYank call s:search(<q-args>)

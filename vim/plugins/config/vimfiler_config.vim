@@ -17,7 +17,7 @@ autocmd VimEnter *  call vimfiler#custom#profile('default', 'context', {
 			\   'toggle': 1,
 			\ })
 
-nnoremap <silent> [Plug]e :<C-u>VimFilerBufferDir -no-quit<CR>
+nnoremap <silent> [Plug]e :<C-u>VimFiler -no-quit<CR>
 
 function! s:set_vimfiler()
 	augroup my-filetype-vimfiler
@@ -33,10 +33,7 @@ function! s:vimfiler_my_settings() abort
 	nmap <buffer> <C-k> <C-w>k
 	nmap <buffer> <C-h> <C-w>h
 	nmap <buffer> <C-l> <C-w>l
+	nmap <buffer> <S-Space> [Plug]
 endfunction
 
-			" \   'explorer_columns': 'type',
-			" \   'columns': 'type',
-			" \   'hidden' : 1,
-			" \   'status' : 1,
-			" \   'auto-cd' : 1
+

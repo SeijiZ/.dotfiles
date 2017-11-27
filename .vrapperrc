@@ -1,8 +1,6 @@
-" vrapper
-" set global shortcut in Eclipse options:
-"   Activate Editor => Esc
-" syntax colors: "MoonRise UI Theme"
-"   http://guari.github.io/eclipse-ui-theme/
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Basic config
 
 set ignorecase
 set smartcase
@@ -14,40 +12,64 @@ set list
 set number
 set cursorline
 
+
+" vrapper settings
+set contentassistmode
+set imdisable
+set startnormalmode
+set scrolloff=3
+set clipboard=unnamed
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Map
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Normal
+nnoremap <S-h> ^
+nnoremap <S-l> $
+
+" toggle pane size
+nnoremap ,z :max<CR>
+inoremap jj <ESC>
+inoremap kk <ESC>
+
 nnoremap gw  <C-w>
 nnoremap d<tab> :bdelete<cr>
 nnoremap <C-d> <PageDown>
 nnoremap <C-u> <PageUp>
 
-" vrepper settings
-set contentassistmode
-set imdisable
-set startnormalmode
-set scrolloff=3
+" goto next or previous function
+nnoremap ]] :eclipseNextMember<cr>
+nnoremap [[ :eclipsePrevMember<cr>
+eclipseaction eclipseNextMember org.eclipse.jdt.ui.edit.text.java.goto.next.member
+eclipseaction eclipsePrevMember org.eclipse.jdt.ui.edit.text.java.goto.previous.member
 
-nnoremap <S-h> ^
-nnoremap <S-l> $
-nnoremap ,z :max<CR>
+nnoremap Ud :eclipsecomparehead<cr>
+eclipseaction eclipsecomparehead org.eclipse.egit.ui.team.CompareWithHead
 
-nnoremap gl :ls<cr>
-" select last inserted text
-nnoremap gV `[v`]
+" find references
+nnoremap gr :eclipseFindRef<cr>
+eclipseaction eclipseFindRef org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace
 
-nnoremap <c-n> n.
-nnoremap Q @@
+nnoremap <Space>q :eclipseQuickRun<CR>
+eclipseuiaction eclipseQuickRun org.eclipse.debug.ui.commands.OpenRunConfigurations
 
-nnoremap ]e :.,.m<space>.+1<cr>
-nnoremap [e :.,.m<space>.-2<cr>
-vnoremap ]e :m<space>.+1<cr>gv
-vnoremap [e :m<space>.-2<cr>kgv
+nnoremap <Space>/ :eclipseToggleComment<CR>
+eclipseuiaction eclipseToggleComment org.eclipse.jdt.ui.edit.text.java.toggle.comment
 
-eclipseaction eclipsenextitem org.eclipse.ui.navigate.next
-nnoremap ]q :eclipsenextitem<cr>
-eclipseaction eclipsepreviousitem org.eclipse.ui.navigate.previous
-nnoremap [q :eclipsepreviousitem<cr>
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Visual
+vnoremap < <gv
+vnoremap > >gv
+vnoremap v $h
 
-nnoremap Y y$
+vnoremap = :eclipseFormat<CR>
+eclipseaction eclipseFormat org.eclipse.jdt.ui.edit.text.java.format
 
+vnoremap <Space>/ :eclipseToggleComment<CR>
+
+" eclipseaction eclipseQuickRun org.eclipse.debug.ui.commands.RunLast
 " vrapper
 " http://evans-stuff.blogspot.com/2007/10/it-seems-that-im-not-only-one-still.html
 " https://github.com/vrapper/vrapper/issues/265#issuecomment-22112349
@@ -57,10 +79,6 @@ nnoremap Y y$
 " vnoremap m :<c-u>eclipseexpandregion<cr>
 
 " https://github.com/vrapper/vrapper/issues/352
-eclipseaction eclipsenextmember org.eclipse.jdt.ui.edit.text.java.goto.next.member
-nnoremap ]] :eclipsenextmember<cr>
-eclipseaction eclipseprevmember org.eclipse.jdt.ui.edit.text.java.goto.previous.member
-nnoremap [[ :eclipseprevmember<cr>
 
 " sexp motion
 " nice try but... no.
@@ -70,22 +88,18 @@ nnoremap [[ :eclipseprevmember<cr>
 " nnoremap <M-k> :eclipseprevelement<cr>
 
 "version control
-eclipseaction eclipsecomparehead org.eclipse.egit.ui.team.CompareWithHead
-nnoremap Ud :eclipsecomparehead<cr>
 
-eclipseaction eclipsefindref org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace
-nnoremap gr :eclipsefindref<cr>
 
-eclipseuiaction eclipsegotoimpl org.eclipse.jdt.ui.edit.text.java.open.implementation
 nnoremap gI :eclipsegotoimpl<cr>
+eclipseuiaction eclipsegotoimpl org.eclipse.jdt.ui.edit.text.java.open.implementation
 
 " show type hierarchy relative to current type
-eclipseuiaction eclipsetypehier org.eclipse.jdt.ui.edit.text.java.open.hierarchy
 nnoremap <C-t> :eclipsetypehier<cr>
+eclipseuiaction eclipsetypehier org.eclipse.jdt.ui.edit.text.java.open.hierarchy
 
 " go to type
-eclipseuiaction eclipsegototype org.eclipse.jdt.ui.navigate.open.type
 nnoremap g/t :eclipsegototype<cr>
+eclipseuiaction eclipsegototype org.eclipse.jdt.ui.navigate.open.type
 
 " show documentation for current symbol
 eclipseuiaction eclipseshowdoc org.eclipse.ui.edit.text.showInformation
@@ -115,10 +129,6 @@ eclipseuiaction eclipsequickfix org.eclipse.jdt.ui.edit.text.java.correction.ass
 au "Dart Editor" eclipseuiaction eclipsequickfix com.google.dart.tools.ui.specific_content_assist.command
 nnoremap <backspace> :eclipsequickfix<cr>
 vnoremap <backspace> :eclipsequickfix<cr>
-
-au "Dart Editor" eclipseaction eclipsetogglecomment com.google.dart.tools.ui.edit.text.dart.toggle.comment
-au "Dart Editor" nnoremap gcc :eclipsetogglecomment<cr>
-au "Dart Editor" vnoremap gc  :eclipsetogglecomment<cr>
 
 eclipseaction eclipsetogglebp org.eclipse.debug.ui.commands.ToggleBreakpoint
 nnoremap <insert> :eclipsetogglebp<cr>

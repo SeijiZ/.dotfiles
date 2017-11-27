@@ -15,5 +15,10 @@ do
 
 done
 
+# neovim setup
 mkdir -p $HOME/.config/nvim
-ln -s ./.vimrc $HOME/.config/nvim/init.vim
+ln -s $HOME/.dotfiles/.vimrc $HOME/.config/nvim/init.vim
+
+# fish setup
+mkdir -p $HOME/.config/fish
+ln -s $HOME/.dotfiles/fish/config.fish $HOME/.config/fish/config.fish
