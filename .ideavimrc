@@ -1,0 +1,59 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Basic config
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set showmatch matchtime=1
+set cmdheight
+set laststatus
+set showcmd
+set display=lastline
+set listchars=tab:->,trail:~
+set showmatch
+set shiftwidth=2
+set softtabstop=2
+set visualbell t_vb
+set noerrorbells
+set clipboard=unnamed
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Normal mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap "+y "*y
+
+
+"move window
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Insert mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap <C-a> <C-o>^
+inoremap <C-e> <C-o>$
+inoremap <C-f> <C-o>w
+inoremap <C-b> <C-o>b
+inoremap <C-d> <C-o>x
+inoremap <silent> jj <ESC>
+inoremap <silent> kk <ESC>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Visual mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"search inside selected range
+vnoremap z/ <ESC>/\%V
+vnoremap z? <ESC>?\%V
+
+"reselect after < or >
+xnoremap < <gv
+xnoremap > >gv
+
+"visual to the end of the line
+vnoremap v $h

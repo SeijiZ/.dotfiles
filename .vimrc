@@ -75,7 +75,6 @@ augroup setKhelp
 	autocmd FileType vim setlocal keywordprg=:help
 augroup END
 
-set visualbell
 set showcmd
 set number
 set relativenumber
@@ -257,3 +256,10 @@ function! s:search(pat)
     call setreg(v:register,join(g:search_yank_cache, "\n"))
 endfunction
 command! -nargs=* SearchYank call s:search(<q-args>)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Terminal mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+	tnoremap <silent> <ESC> <C-\><C-n>
+endif

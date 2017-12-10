@@ -24,8 +24,11 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 
-# nodebrew
-export PATH=$PATH:$HOME/.nodebrew/current/bin
+# # nodebrew
+# export PATH=$PATH:$HOME/.nodebrew/current/bin
+
+# android sdk
+export PATH=$PATH:$HOME/Library/Android/sdk/tools/bin
 
 # enable command edit
 autoload -U edit-command-line
@@ -179,12 +182,12 @@ setopt hist_reduce_blanks
 
 # cd ghq managed git directory with fzf
 function fzf-ghq() {
-local selected
-selected="$(ghq list --full-path | fzf --reverse --query="$LBUFFER")"
-if [ -n "$selected" ] ; then
-	BUFFER="builtin cd $selected"
-fi
-zle reset-prompt
+	local selected
+	selected="$(ghq list --full-path | fzf --reverse --query="$LBUFFER")"
+	if [ -n "$selected" ] ; then
+		BUFFER="builtin cd $selected"
+	fi
+	builtin zle accept-line
 }
 
 zle -N fzf-ghq

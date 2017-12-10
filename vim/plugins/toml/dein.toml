@@ -54,6 +54,9 @@ hook_post_update = '''
 '''
 
 [[plugins]]
+repo = 'vim-scripts/gtags.vim'
+
+[[plugins]]
 repo = 'whatyouhide/vim-gotham'
 
 [[plugins]]
@@ -69,17 +72,10 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'vim-syntastic/syntastic'
-# "******************** syntastic ********************
-# "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
-# "set statusline+=%#warningmsg#
-# "set statusline+=%{SyntasticStatuslineFlag()}
-# "set statusline+=%*
-#
-# "let g:syntastic_always_populate_loc_list = 1
-# "let g:syntastic_auto_loc_list = 1
-# "let g:syntastic_check_on_open = 1
-# "let g:syntastic_check_on_wq = 0
+repo = 'w0rp/ale'
+hook_add = '''
+source ~/.dotfiles/vim/plugins/config/ale_config.vim
+'''
 
 [[plugins]]
 repo = 'elzr/vim-json'
@@ -152,6 +148,10 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'nixprime/cpsm'
+build = 'env PY3=ON ./install.sh'
+
+[[plugins]]
 repo = 'dag/vim-fish'
 hook_add = '''
 " Set up :make to use fish for syntax checking.
@@ -162,4 +162,33 @@ autocmd FileType *.fish setlocal textwidth=79
 
 " Enable folding of block structures in fish.
 autocmd FileType *.fish setlocal foldmethod=expr
+'''
+
+########################################
+# javascript
+[[plugin]]
+repo = 'othree/yajs.vim'
+on_ft = ['javascript','html','php']
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = ['javascript']
+hook_add = '''
+let g:jsx_ext_required = 0
+'''
+
+[[plugins]]
+repo = 'MaxMEllon/vim-jsx-pretty'
+on_ft = ['javascript']
+
+# [[plugins]]
+# repo = 'moll_vim-node'
+# on_ft = ['javascript']
+
+[[plugins]]
+repo = 'myhere/vim-nodejs-complete'
+on_ft = ['javascript']
+hook_add = '''
+setl omnifunc=jscomplete
+let g:usejscomplete = 1
 '''
