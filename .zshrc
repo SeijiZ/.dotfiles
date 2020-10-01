@@ -1,40 +1,27 @@
 ########################################
 # Environmental variable
 export TERM=xterm-256color
-export SPARK_HOME=/opt/spark
-export PATH=${SPARK_HOME}/bin:$PATH
 
-# java env
-export JAVA_HOME=$(/usr/libexec/java_home)
-#export CLASSPATH=/usr/share/java/postgresql-jdbc4.jar:$HOME/code_java/jdbc
-export PATH=$PATH:/Applications/dsdriver/bin
-
-# python env
-export PYTHONIOENCODING=utf-8
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
-
-# python nvim
-export NVIM_PYTHON_LOG_FILE=/tmp/log
-export NVIM_PYTHON_LOG_LEVEL=DEBUG
+case ${OSTYPE} in
+  darwin*)
+    # java
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    ;;
+esac
 
 # XDG Base Directory Specification
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 
-# # nodebrew
-# export PATH=$PATH:$HOME/.nodebrew/current/bin
-
-# android sdk
-export PATH=$PATH:$HOME/Library/Android/sdk/tools/bin
-
 # enable command edit
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey "^Xe" edit-command-line
 bindkey "^X^e" edit-command-line
+
+# remove words like bash with ctrl u
+bindkey \^U backward-kill-line
 
 # enable color
 autoload -Uz colors && colors
