@@ -214,7 +214,7 @@ bindkey '^]' fzf-ghq
 # use history list with fzf
 if which fzf >/dev/null 2>&1 ; then
 	function select-history-fzf(){
-		BUFFER=$(history -n -r 1 | fzf --no-sort --reverse +m --query "$LBUFFER" --prompt="History > ")
+    BUFFER="$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")"
 		CURSOR=$#BUFFER
 	}
 	zle -N select-history-fzf
@@ -223,28 +223,22 @@ else
 	bindkey '^r' history-incremental-pattern-search-backward
 fi
 
-function git-branch-fzf()
-{
-	local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | perl -pne 's{^refs/heads/}{}' | fzf --query "$LBUFFER")
-	if [ -n "$selected_branch" ]; then
-		BUFFER="git checkout ${selected_branch}"
-		zle accept-line
-	fi
-
-	zle reset-prompt
+# ctrl o open / ctrl v nvr -cc vsplit
+function open-file() {
+    local out key file
+    # out="$(find ./ -type f | fzf --bind 'ctrl-v:execute(nvr -cc vsplit $(echo {}))+accept' --bind 'ctrl-s:execute(nvr -cc split $(echo {}))+accept' --bind 'ctrl-o:execute(open $(echo {}))+accept' --no-sort +m --query "$LBUFFER" --prompt="File > " --expect=ctrl-v,ctrl-o,ctrl-s)"
+    out="$(find ./ -type f | fzf --no-sort +m --query "$LBUFFER" --prompt="File > " --expect=ctrl-v,ctrl-o,ctrl-s)"
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+        [ "$key" = "ctrl-o" ]  && open "$file"
+        [ "$key" = "ctrl-v" ]  && nvr -cc vsplit "$file"
+        [ "$key" = "ctrl-s" ]  && nvr -cc split "$file"
+        BUFFER="$file"
+    fi
 }
-zle -N git-branch-fzf
-bindkey '^b' git-branch-fzf
-
-fkill() {
-  local pid
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]
-  then
-    echo $pid | xargs kill -${1:-9}
-  fi
-}
+zle -N open-file
+bindkey '^o' open-file
 
 ########################################
 # key bind
