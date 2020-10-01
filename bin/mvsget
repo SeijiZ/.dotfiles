@@ -1,0 +1,19 @@
+#!/bin/sh
+
+HOST=$1
+USER=$2
+PASSWD=$3
+DSNAME=$4
+TARGET=$4
+MEMBER=$(echo $DSNAME | awk '{print substr($0, match($0, "\\\(") + 1, match($0, "\\\)") - match($0, "\\\(") - 1)}')
+
+if [ ! -z "$MEMBER" ]; then
+  TARGET=$MEMBER
+fi
+
+
+ftp -n << EOF
+open $HOST
+user $USER $PASSWD
+get '"$DSNAME"' $TARGET
+EOF

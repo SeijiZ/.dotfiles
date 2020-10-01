@@ -1,0 +1,15 @@
+#!/bin/sh
+
+HOST=$1
+USER=$2
+PASSWD=$3
+JOBID=$4
+
+ftp -n << EOF
+open $HOST
+user $USER $PASSWD
+quote site FILETYPE=JES
+quote site JESJOBNAME=*
+quote site JESOWNER=*
+get $JOBID ./$JOBID.txt
+EOF
