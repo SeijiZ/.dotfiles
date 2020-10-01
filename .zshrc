@@ -44,12 +44,13 @@ bindkey -e
 
 ########################################
 # Plugin
-# source ~/.zplug/init.zsh
-# zplug "b4b4r07/enhancd", use:init.sh
-# ENHANCD_FILTER=fzf
-# export ENHANCD_FILTER
-#
-#
+
+if [ ! -d "$HOME/.zinit" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+fi
+source ~/.zinit/bin/zinit.zsh
+zinit light "b4b4r07/enhancd"
+
 ########################################
 # History
 HISTFILE=$HOME/.zsh_history
@@ -302,6 +303,3 @@ esac
 
 # vim:set ft=zsh:
 
-
-### Added by the Bluemix CLI
-source /usr/local/Bluemix/bx/zsh_autocomplete
