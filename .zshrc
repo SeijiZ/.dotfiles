@@ -37,6 +37,7 @@ if [ ! -d "$HOME/.zinit" ]; then
 fi
 source ~/.zinit/bin/zinit.zsh
 zinit light "b4b4r07/enhancd"
+export ENHANCD_FILTER=fzf
 
 ########################################
 # History
