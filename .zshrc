@@ -14,6 +14,16 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 
+
+# DB2 ENVIRONMENTAL VARIABLE
+case ${OSTYPE} in
+  darwin*)
+    [ -d /Applications/dsdriver ] && source /Applications/dsdriver/db2profile
+    ;;
+  linux*)
+    ;;
+esac
+
 # enable command edit
 autoload -U edit-command-line
 zle -N edit-command-line
