@@ -63,6 +63,8 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}
+  Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+  call s:source_rc('denite.rc.vim')
   Plug 'Shougo/defx.nvim', {'do' : ':UpdateRemotePlugins'}
   call s:source_rc('defx.rc.vim')
 else

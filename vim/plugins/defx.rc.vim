@@ -1,5 +1,5 @@
 " defx Config: start -----------------
-nnoremap <silent> [Plug]e :<C-u>Defx -split=floating<CR>
+nnoremap <silent> [Plug]e :<C-u>Defx -split=floating -auto-cd<CR>
 
 
 autocmd FileType defx call s:defx_my_settings()
@@ -43,6 +43,8 @@ function! s:defx_my_settings() abort
         \ defx#do_action('cd')
   nnoremap <silent><buffer><expr> q
         \ defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Esc>
+        \ defx#do_action('quit')
   nnoremap <silent><buffer><expr> <Space>
         \ defx#do_action('toggle_select') . 'j'
   nnoremap <silent><buffer><expr> *
@@ -57,7 +59,14 @@ function! s:defx_my_settings() abort
         \ defx#do_action('print')
   nnoremap <silent><buffer><expr> cd
         \ defx#do_action('change_vim_cwd')
+  nnoremap <silent><buffer><expr> gr
+        \ defx#do_action('multi', [['call','DefxDeniteGrep'], 'quit'])
 endfunction
 
 " defx Config: end -------------------
 
+function! g:DefxDeniteGrep(context) abort
+	let l:target = a:context['targets'][0]
+	let l:parent = fnamemodify(l:target, ':h')
+  silent execute 'Denite grep:'.l:parent.' -split=floating'
+endfunction

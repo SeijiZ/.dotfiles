@@ -285,3 +285,5 @@ esac
 
 # vim:set ft=zsh:
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
