@@ -18,7 +18,7 @@ let g:quickrun_config = {
       \       "command" : "python3",
       \   },
       \   'sql': {
-      \       'exec': "%c execsql -dsn %a -statementdelimiter \\@ -inputsql %s",
+      \       'exec': "%c execsql -dsn %a -statementdelimiter \\# -inputsql %s",
       \       'command': 'db2cli',
       \       'args': '%{input("Enter database name > ")}'
       \   },
